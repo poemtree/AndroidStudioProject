@@ -1,5 +1,7 @@
 package com.example.student.p230;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,10 +11,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     ImageView img_vw;
@@ -21,18 +27,36 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout rgst_lyt;
     RelativeLayout login_lyt;
     TextView txt_time;
-    Thread tt;
+    Date day;
+    Calendar cal;
+    SimpleDateFormat sdf;
+    Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initUI();
-        if(tt == null) {
-            tt = new Thread(new TimeText(txt_time));
-            tt.start();
-        }
-
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Thread timeText = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        handler.sendMessage(handler.obtainMessage());
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        timeText.start();
+    }
+
     public void initUI() {
         img_vw = findViewById(R.id.img_vw);
         wb_vw = findViewById(R.id.wb_vw);
@@ -40,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         rgst_lyt = findViewById(R.id.rgst_lyt);
         login_lyt = findViewById(R.id.login_lyt);
         txt_time = findViewById(R.id.txt_time);
-
+        sdf = new SimpleDateFormat("hh:mm:ss a");
         wb_vw.setWebViewClient(new WebViewClient());
         wb_vw.getSettings().setJavaScriptEnabled(true);
 
@@ -48,6 +72,14 @@ public class MainActivity extends AppCompatActivity {
         img_vw.setVisibility(View.INVISIBLE);
         rgst_lyt.setVisibility(View.INVISIBLE);
         login_lyt.setVisibility(View.INVISIBLE);
+
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                updateTime();
+            }
+        };
+
     }
 
     public void onClickBnt(View v) {
@@ -91,4 +123,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onClickWebGoBack(View v) {
+        if(wb_vw.canGoBack() && wb_vw.getVisibility() == View.VISIBLE) {
+            wb_vw.goBack();
+        }
+    }
+
+    private void updateTime() {
+        cal = Calendar.getInstance();
+        day = cal.getTime();
+        txt_time.setText(sdf.format(day));
+    }
 }
