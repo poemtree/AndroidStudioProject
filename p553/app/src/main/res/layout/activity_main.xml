@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/imgv1"
+        android:layout_centerVertical="true"
+        android:onClick="onClickBtn"
+        android:text="Button" />
+
+    <ImageView
+        android:id="@+id/imgv1"
+        android:layout_width="253dp"
+        android:layout_height="229dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/chicken_icon" />
+
+    <ImageView
+        android:id="@+id/imgv2"
+        android:layout_width="137dp"
+        android:layout_height="132dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="64dp"
+        android:layout_marginStart="34dp"
+        app:srcCompat="@drawable/chicken_icon" />
+
+    <ImageView
+        android:id="@+id/imgv3"
+        android:layout_width="137dp"
+        android:layout_height="132dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/imgv2"
+        android:layout_marginEnd="34dp"
+        app:srcCompat="@drawable/chicken_icon" />
+
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/imgv1"
+        android:layout_centerVertical="true"
+        android:onClick="onClickBtn"
+        android:text="Button" />
+
+</RelativeLayout>
