@@ -6,20 +6,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.Scanner;
-
 
 public class Client extends Thread {
-
-    boolean flag;
     String address;
     int port;
     Socket socket;
-    Scanner scanner;
     boolean rflag;
+    OutputStream out;
+    DataOutputStream outw;
+    Thread receiver;
 
     public Client() {
-        flag = true;
         rflag = true;
         address = "192.168.0.59";
         port = 9999;
@@ -49,42 +46,35 @@ public class Client extends Thread {
         return result;
     }
 
+    public void sendMessage(String message){
+        new Thread(new Sender(message)).start();
+    }
+
+    public void closeConnection() {
+        receiver.interrupt();
+        this.interrupt();
+    }
+
     public void run() {
         if(connectServer()) {
             System.out.println("Connected " + socket.getInetAddress());
             try {
-                Thread receiver = new Thread(new Receiver(socket));
+                receiver = new Thread(new Receiver(socket));
                 receiver.start();
+                out = socket.getOutputStream();
+                outw = new DataOutputStream(out);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public void sendMessage(String message){
-        try {
-            Sender sender = new Sender(socket);
-            sender.setSendMsg(message);
-            Thread send = new Thread(sender);
-            send.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     class Sender implements Runnable {
-        Socket socket;
-        OutputStream out;
-        DataOutputStream outw;
+
         String sendMsg;
 
-        public Sender(Socket socket) throws IOException {
-            this.socket = socket;
-            out = socket.getOutputStream();
-            outw = new DataOutputStream(out);
-        }
-
-        public void setSendMsg(String sendMsg) {
+        public Sender(String sendMsg) {
             this.sendMsg = sendMsg;
         }
 
@@ -104,37 +94,43 @@ public class Client extends Thread {
     class Receiver extends Thread {
         Socket socket;
         InputStream in;
-        DataInputStream inr;
+        DataInputStream din;
 
         public Receiver(Socket socket) throws IOException {
             this.socket = socket;
             in = socket.getInputStream();
-            inr = new DataInputStream(in);
+            din = new DataInputStream(in);
         }
 
         @Override
         public void run() {
             while (rflag) {
                 try {
-                    String str = inr.readUTF();
+                    String str = din.readUTF();
                     System.out.println(str);
                     if (str.trim().equals("q")) {
-                        inr.close();
+                        din.close();
                         break;
                     }
                 } catch (Exception e) {
-                    System.out.println("Disconnected...");
+                    System.out.println("비정상적으로 종료 되었습니다...(0)");
                     break;
                 }
             }
-
+            System.out.println("Disconnected...");
+            if(din != null) {
+                try {
+                    din.close();
+                } catch (IOException e) {
+                    System.out.println("비정상적으로 종료 되었습니다...(1)");
+                }
+            }
             try {
-                Thread.sleep(1000);
-                flag = false;
-                socket.close();
-                System.exit(0);
+                if(socket != null && socket.isConnected()) {
+                    socket.close();
+                }
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("비정상적으로 종료 되었습니다...(2)");
             }
 
         }

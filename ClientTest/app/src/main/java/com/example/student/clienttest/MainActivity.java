@@ -1,15 +1,14 @@
 package com.example.student.clienttest;
 
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
     private Client client;
     private EditText edtTxt;
-    private Button btnSend;
     private String message;
 
     @Override
@@ -17,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         edtTxt = findViewById(R.id.edtTxt);
-        btnSend = findViewById(R.id.btnSend);
         client = new Client();
         client.start();
     }
@@ -26,8 +24,15 @@ public class MainActivity extends AppCompatActivity {
         if(edtTxt.getText() != null && !edtTxt.getText().toString().equals("")) {
             message = edtTxt.getText().toString();
             client.sendMessage(message);
+            edtTxt.setText("");
         }
     }
 
-
+    @Override
+    protected void onDestroy() {
+        if(client != null && client.isAlive()) {
+            client.closeConnection();
+        }
+        super.onDestroy();
+    }
 }
