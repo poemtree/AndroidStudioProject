@@ -11,11 +11,27 @@
         android:id="@+id/txtV1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="TextView" />
 
     <TextView
         android:id="@+id/txtV2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="TextView" />
+
+    <EditText
+        android:id="@+id/edtTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickBtn"
+        android:text="Button" />
 </LinearLayout>
