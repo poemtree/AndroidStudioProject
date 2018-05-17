@@ -15,7 +15,7 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
 
     private static final int PAGE_NUMBER = 3;
 
-    private MapPresenterImpl controlPresenter;
+    private MapPresenterImpl mapPresenter;
 
     private StatusPresenterImpl statusPresenter;
 
@@ -30,7 +30,7 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
         switch ( position ) {
             case 0: {
                 MapFragment mapFragment = MapFragment.newInstance();
-                controlPresenter = new MapPresenterImpl(mapFragment);
+                mapPresenter = new MapPresenterImpl(mapFragment);
 
                 return mapFragment;
             }
