@@ -1,5 +1,6 @@
 package com.example.student.tcsphone.map;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.StringTokenizer;
+
 public class MapFragment extends Fragment implements FragmentContract.View, OnMapReadyCallback {
     private static final String TAG = "Map";
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
@@ -28,8 +37,31 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
 
     private Button mButton;
 
-    public MapFragment() {
+    private double lat;
+    private double lng;
 
+    private boolean mapFlag;
+
+    private LocationSetting locationSetting;
+
+    public MapFragment() {
+        mapFlag = true;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLat() {
+        return this.lat;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public double getLng() {
+        return this.lng;
     }
 
     @Nullable
@@ -56,8 +88,6 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
 
         return root;
     }
-
-
 
     @Override
     public void setPresenter(FragmentContract.Presenter presenter) {
@@ -122,24 +152,97 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
         gmap.setMinZoomPreference(12);
         /*LatLng ny = new LatLng(40.7143528, -74.0059731);
         gmap.moveCamera(CameraUpdateFactory.newLatLng(ny));*/
-        LatLng SEOUL = new LatLng(37.56, 126.97);
-
-        MarkerOptions markerOptions = new MarkerOptions();
-
-        markerOptions.position(SEOUL);
-
-        markerOptions.title("서울");
-
-        markerOptions.snippet("수도");
-
-        googleMap.addMarker(markerOptions);
-
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
+        locationSetting = new LocationSetting();
+        Thread thread = new Thread(locationSetting);
+        thread.start();
 
     }
 
     public static MapFragment newInstance() {
         return new MapFragment();
+    }
+
+    class LocationTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... strings) {
+
+            String address = "http://70.12.114.134/ws/car.do";
+            URL url = null;
+            HttpURLConnection con = null;
+            BufferedReader br = null;
+
+            try {
+                url = new URL(address+"?"+strings[0]+"="+strings[1]);
+
+                //connect
+                con=(HttpURLConnection)url.openConnection();
+
+                if(con != null) {
+                    con.setConnectTimeout(100);
+                    con.setRequestMethod("GET");
+                    con.setRequestProperty("Accept","*/*");
+                    if(con.getResponseCode() != HttpURLConnection.HTTP_OK){
+                        return null;
+                    }
+                    br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    StringTokenizer result = new StringTokenizer(br.readLine());
+                    lat = Double.parseDouble(result.nextToken("/"));
+                    lng = Double.parseDouble(result.nextToken("/"));
+
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if(br != null) {
+                    try {
+                        br.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            LatLng CAR = new LatLng(lat, lng);
+
+            MarkerOptions markerOptions = new MarkerOptions();
+
+            markerOptions.position(CAR);
+
+            markerOptions.title("차 위치");
+
+            markerOptions.snippet("내 차");
+
+            gmap.addMarker(markerOptions);
+
+            gmap.moveCamera(CameraUpdateFactory.newLatLng(CAR));
+
+        }
+    }
+
+    class LocationSetting implements Runnable {
+
+        @Override
+        public void run() {
+            while(mapFlag) {
+                try {
+                    LocationTask locationTask = new LocationTask();
+                    locationTask.doInBackground("car_num", "1234567890");
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 }
