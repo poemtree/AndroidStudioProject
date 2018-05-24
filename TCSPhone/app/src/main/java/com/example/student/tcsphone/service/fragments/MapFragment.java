@@ -129,7 +129,6 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
         locationSetting = new LocationSetting();
         Thread thread = new Thread(locationSetting);
         thread.start();
-
     }
 
     public static MapFragment newInstance() {
@@ -147,7 +146,7 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
         @Override
         protected List<Double> doInBackground(String... strings) {
 
-            String address = "http://70.12.114.134/ws/car.do";
+            String address = "http://70.12.114.140/car/readCarloc.do";
             URL url = null;
             HttpURLConnection con = null;
             BufferedReader br = null;
@@ -160,7 +159,7 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
                 con=(HttpURLConnection)url.openConnection();
 
                 if(con != null) {
-                    con.setConnectTimeout(1000);
+                    con.setConnectTimeout(500);
                     con.setRequestMethod("GET");
                     con.setRequestProperty("Accept","*/*");
                     if(con.getResponseCode() != HttpURLConnection.HTTP_OK){
@@ -216,8 +215,8 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
             while(mapFlag) {
                 try {
                     LocationTask locationTask = new LocationTask();
-                    locationTask.execute("car_num", "1234567890");
-                    Thread.sleep(3000);
+                    locationTask.execute("car_num", "abc123");
+                    Thread.sleep(1500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
