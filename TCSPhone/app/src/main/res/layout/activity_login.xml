@@ -78,6 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:onClick="onClickLoginButton"
             android:src="@drawable/loginbtn" />
     </LinearLayout>
 
@@ -94,6 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:onClick="onClickRegisterButton"
             android:text="회원 가입" />
 
         <Button

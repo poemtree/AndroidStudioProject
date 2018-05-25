@@ -6,6 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CODE_LOGIN = 101;
+
+    private final String tag = "-----MainActivity-----";
+
+    private String id;
+    private String pwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +23,23 @@ public class MainActivity extends AppCompatActivity {
         startActivity(serviceintent);*/
 
         Intent memberIntent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(memberIntent);
+        startActivityForResult(memberIntent, REQUEST_CODE_LOGIN);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_LOGIN:
+                    id = data.getExtras().getString("id");
+                    pwd = data.getExtras().getString("pwd");
+                    break;
+                default:
+                    break;
+            }
+
+        }
     }
 
 }
