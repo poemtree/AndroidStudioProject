@@ -1,6 +1,5 @@
 package com.example.student.tcsphone;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +19,7 @@ public class LoginActivity extends AppCompatActivity {
     private final String tag = "---LoginActivity---";
 
     // 프로그래스 다이얼로그
-    ProgressDialog progressDialog;
+    CarProgressDialog carProgressDialog;
 
     // 로그인에 필요한 정보
     private String id;
@@ -78,7 +77,12 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         loginHandler = new LoginHandler();
-        progressDialog = new ProgressDialog(LoginActivity.this);
+        carProgressDialog = new CarProgressDialog(LoginActivity.this);
+    }
+
+    // 찾기버튼의 클릭리스너
+    public void onClickFindButton(View v) {
+        carProgressDialog.show();
     }
 
     // 레지스터버튼의 클릭리스너
@@ -96,10 +100,7 @@ public class LoginActivity extends AppCompatActivity {
         loginTask.execute(id,pwd);
 
         // 프로그래스다이얼로그 출력
-        progressDialog.setTitle("Login...");
-        progressDialog.setMessage("Wait...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+        carProgressDialog.show();
     }
 
     // 로그인 결과에 대한 후속 처리
@@ -123,8 +124,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             // 프로그래스다이얼로그 종료
-            progressDialog.dismiss();
-
+            carProgressDialog.dismiss();
             Log.e(tag, "Login Result : "+msg.getData().getBoolean("result"));
 
             // 로그인 결과 반환

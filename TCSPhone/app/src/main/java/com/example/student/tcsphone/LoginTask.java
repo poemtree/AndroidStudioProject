@@ -32,6 +32,8 @@ public class LoginTask extends AsyncTask<String, Void, Boolean> {
         BufferedReader br = null;
 
         try {
+            Thread.sleep(2000);
+
             Log.e(tag, "LoginTask run");
             url = new URL("http://70.12.114.140/car/itsMe.do?id="+id+"&pwd="+pwd);
             con = (HttpURLConnection) url.openConnection();
@@ -53,6 +55,8 @@ public class LoginTask extends AsyncTask<String, Void, Boolean> {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
             con.disconnect();
