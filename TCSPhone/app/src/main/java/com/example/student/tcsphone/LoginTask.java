@@ -15,6 +15,8 @@ import java.net.URL;
 
 public class LoginTask extends AsyncTask<String, Void, Boolean> {
 
+    private String member_seq;
+
     private Handler handler;
     private final String tag = "------LoginTask------";
 
@@ -47,7 +49,8 @@ public class LoginTask extends AsyncTask<String, Void, Boolean> {
                 }
                 Log.e(tag, "Succeed connection");
                 br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                if(br.readLine().toString().equals("1")) {
+                member_seq = br.readLine().toString();
+                if(!member_seq.equals("0")) {
                     result = true;
                 }
             }
@@ -68,6 +71,7 @@ public class LoginTask extends AsyncTask<String, Void, Boolean> {
     protected void onPostExecute(Boolean aBoolean) {
         Bundle bundle = new Bundle();
         bundle.putBoolean("result", aBoolean);
+        bundle.putString("member_seq", member_seq);
         Message message = new Message();
         message.setData(bundle);
         handler.sendMessage(message);
