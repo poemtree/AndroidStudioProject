@@ -58,13 +58,13 @@ public class ListViewAdapter extends BaseAdapter {
         car_num.setText(list_item.getCar_num());
         car_memo.setText(list_item.getCar_memo());
 
-        view.setOnClickListener(new View.OnClickListener() {
+  /*      view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
-
+*/
         return view;
     }
 

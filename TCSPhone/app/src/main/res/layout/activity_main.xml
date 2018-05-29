@@ -2,16 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".MainActivity">
-    <!--
+    tools:context=".CarListActivity">
+
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="#4bacc6"
+        app:tabTextColor="@android:color/white" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -54,25 +56,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
+                android:onClick="onClickSettingButton"
                 android:text="SETTING" />
         </LinearLayout>
 
-    </FrameLayout>-->
+    </FrameLayout>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/title_m" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/title_c" />
-
-    <ListView
-        android:id="@+id/car_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </LinearLayout>

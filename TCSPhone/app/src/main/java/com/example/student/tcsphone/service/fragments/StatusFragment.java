@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.webkit.WebView;
 
 import com.example.student.tcsphone.R;
 import com.example.student.tcsphone.fragmentinterface.FragmentContract;
@@ -18,7 +18,7 @@ public class StatusFragment  extends Fragment implements FragmentContract.View{
 
     private FragmentContract.Presenter mPresenter;
 
-    private TextView mTextView;
+    private WebView wb_status;
 
     public static StatusFragment newInstance() {
         return new StatusFragment();
@@ -28,8 +28,8 @@ public class StatusFragment  extends Fragment implements FragmentContract.View{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_status, container, false);
-
-        mTextView = (TextView)root.findViewById(R.id.txt_sts);
+        wb_status = (WebView)root.findViewById(R.id.wb_status);
+        wb_status.loadUrl("https://m.naver.com");
 
         return root;
     }

@@ -60,7 +60,7 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
         map.onCreate(mapViewBundle);
         map.getMapAsync(this);
 
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.carmarker);
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.carmarker1);
         setBitmapSize(0.2f);
 
         return root;
@@ -138,7 +138,7 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
     public void setBitmapSize(float scall) {
         //Marker Image resize
         bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
-                R.drawable.carmarker), Math.round(bitmap.getWidth() * scall),Math.round(bitmap.getHeight() * scall),false );
+                R.drawable.carmarker1), Math.round(bitmap.getWidth() * scall),Math.round(bitmap.getHeight() * scall),false );
     }
 
     class LocationTask extends AsyncTask<String, Void, List<Double>> {

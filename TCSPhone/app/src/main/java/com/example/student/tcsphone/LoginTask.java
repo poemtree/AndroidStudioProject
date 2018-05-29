@@ -50,6 +50,7 @@ public class LoginTask extends AsyncTask<String, Void, Boolean> {
                 Log.e(tag, "Succeed connection");
                 br = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 member_seq = br.readLine().toString();
+                Log.e(tag, "Member_seq : " + member_seq);
                 if(!member_seq.equals("0")) {
                     result = true;
                 }

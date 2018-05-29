@@ -11,13 +11,13 @@ import com.example.student.tcsphone.service.fragments.StatusFragment;
 
 public class TabPagerAdapter extends FragmentPagerAdapter {
 
+    // 프래그먼트 수
     private static final int PAGE_NUMBER = 3;
 
+    // 프래그먼트 객체
     private BasePresenterImpl mapPresenter;
-
-    private BasePresenterImpl statusPresenter;
-
     private BasePresenterImpl boardPresenter;
+    private BasePresenterImpl statusPresenter;
 
     public TabPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
@@ -26,25 +26,18 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch ( position ) {
-            case 0: {
+            case 0:
                 MapFragment mapFragment = MapFragment.newInstance();
                 mapPresenter = new BasePresenterImpl(mapFragment);
-
                 return mapFragment;
-            }
-
-           case 1: {
-                StatusFragment statusFragment = StatusFragment.newInstance();
-                statusPresenter = new BasePresenterImpl(statusFragment);
-
-                return statusFragment;
-            }
-
-            case 2: {
+            case 1:
                 BoardFragment boardFragment = BoardFragment.newInstance();
                 boardPresenter = new BasePresenterImpl(boardFragment);
                 return boardFragment;
-            }
+            case 2:
+                StatusFragment statusFragment = StatusFragment.newInstance();
+                statusPresenter = new BasePresenterImpl(statusFragment);
+                return statusFragment;
             default:
                 return null;
         }
@@ -61,9 +54,9 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return "Map";
             case 1:
-                return "Status";
-            case 2:
                 return "Board";
+            case 2:
+                return "Status";
             default:
                 return "Default";
         }

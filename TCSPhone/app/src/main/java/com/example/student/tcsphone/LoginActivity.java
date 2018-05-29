@@ -189,6 +189,7 @@ public class LoginActivity extends AppCompatActivity {
             // 프로그래스다이얼로그 종료
             carProgressDialog.dismiss();
             Log.e(tag, "Login Result : "+msg.getData().getBoolean("result"));
+            Log.e(tag, "Member_seq : " + msg.getData().getString("member_seq"));
 
             //member_seq 결과 저장
             member_seq = msg.getData().getString("member_seq");
@@ -220,6 +221,7 @@ public class LoginActivity extends AppCompatActivity {
         builder.create().show();
     }
 
+    // 아이디저장, 자동로그인 설정 반영
     @Override
     protected void onDestroy() {
         SharedPreferences.Editor se = sharedPreferences.edit();
