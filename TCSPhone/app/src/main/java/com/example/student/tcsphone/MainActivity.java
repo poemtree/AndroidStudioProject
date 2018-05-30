@@ -13,9 +13,10 @@ import com.example.student.tcsphone.service.TabPagerAdapter;
 public class MainActivity extends AppCompatActivity {
 
     // 엑티비티 코드
-    public static final int REQUEST_CODE_LOGIN = 100;
-    public static final int REQUEST_CODE_CARLIST = 200;
-    public static final int REQUEST_CODE_SETTING = 300;
+    private static final int REQUEST_CODE_LOGIN = 100;
+    private static final int REQUEST_CODE_RELOGIN = 200;
+    private static final int REQUEST_CODE_CARLIST = 300;
+    private static final int REQUEST_CODE_SETTING = 400;
 
     // 로그에 표시할 태그명
     private final String tag = "-----MainActivity-----";
@@ -36,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
         switch (code) {
             case REQUEST_CODE_LOGIN :
                 intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.putExtra("Relogin",false);
+                break;
+            case REQUEST_CODE_RELOGIN :
+                intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.putExtra("Relogin",true);
                 break;
             case REQUEST_CODE_CARLIST :
                 intent = new Intent(getApplicationContext(), CarListActivity.class);
@@ -43,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case REQUEST_CODE_SETTING :
                 intent = new Intent(getApplicationContext(), SettingActivity.class);
+                intent.putExtra("id", id);
+                intent.putExtra("pwd", pwd);
                 break;
         }
         if(intent != null) {
@@ -90,9 +98,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.e(tag,"Result Check");
-        if(resultCode==RESULT_OK) {
+        if(resultCode==RESULT_OK && !data.getExtras().getBoolean("Relogin")) {
             Log.e(tag,"Result OK");
             switch (requestCode) {
+                case REQUEST_CODE_RELOGIN :
                 case REQUEST_CODE_LOGIN :
                     Log.e(tag,"REQUEST_CODE_LOGIN");
                     id = data.getExtras().getString("id");
@@ -109,9 +118,11 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
 
-        } else {
+        } else if(resultCode==RESULT_CANCELED) {
             Log.e(tag,"Result not OK");
             finish();
+        } else {
+            startActivity(REQUEST_CODE_RELOGIN);
         }
     }
 

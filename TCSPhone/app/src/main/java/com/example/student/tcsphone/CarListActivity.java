@@ -1,10 +1,12 @@
 package com.example.student.tcsphone;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -63,10 +65,34 @@ public class CarListActivity extends AppCompatActivity {
                 Log.e(tag,"Listitem click resut : " + car_num);
                 Intent intent = new Intent();
                 intent.putExtra("car_num", car_num);
+                intent.putExtra("Relogin",false);
                 setResult(RESULT_OK, intent);
                 finish();
             }
         });
+    }
+
+    public void onClickLogoutButton(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Close");
+        builder.setMessage("로그아웃 하시겠습니까?");
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent();
+                intent.putExtra("Relogin",true);
+                setResult(RESULT_OK,intent);
+                finish();
+            }
+        });
+        builder.setNeutralButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.create().show();
     }
 
     @Override
@@ -90,6 +116,28 @@ public class CarListActivity extends AppCompatActivity {
         logos.put("sedan", R.drawable.benz_emblem);
 
         new MyCarsTask().execute(member_seq);
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Close");
+        builder.setMessage("종료하시겠습니까?");
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+        });
+        builder.setNeutralButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.create().show();
     }
 
     class MyCarsTask extends AsyncTask<String, Void, Void> {
@@ -133,6 +181,8 @@ public class CarListActivity extends AppCompatActivity {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch(NullPointerException ne) {
+                ne.printStackTrace();
             } finally {
                 con.disconnect();
             }

@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
         loginHandler = new LoginHandler();
         carProgressDialog = new CarProgressDialog(LoginActivity.this);
 
-        if(checkAutoLogin()) {
+        if(checkAutoLogin() && !getIntent().getExtras().getBoolean("Relogin")) {
             // 로그인 타스크 생성 및 실행
             new LoginTask(loginHandler).execute(id,pwd);
 
@@ -236,7 +236,11 @@ public class LoginActivity extends AppCompatActivity {
         se.putBoolean("auto_login_flag", auto_login.isChecked());
         se.putString("id", id);
         se.putString("pwd", pwd);
-        se.commit();
+        if(se.commit()){
+            Log.e(tag,"Succeeded to save setting");
+        } else {
+            Log.e(tag,"Failed to save setting");
+        }
         super.onDestroy();
     }
 }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".CarListActivity">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -18,10 +18,20 @@
         android:id="@+id/imageView3"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:src="@drawable/title_c"
         app:srcCompat="@drawable/title_c" />
 
     <ListView
         android:id="@+id/car_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:onClick="onClickLogoutButton"
+        app:srcCompat="@drawable/logout" />
 </LinearLayout>

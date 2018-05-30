@@ -28,7 +28,7 @@
         <activity android:name=".CarListActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".SettingActivity"></activity>
+        <activity android:name=".SettingActivity" android:theme="@style/Theme.AppCompat.Translucent"></activity>
     </application>
 
 </manifest>
