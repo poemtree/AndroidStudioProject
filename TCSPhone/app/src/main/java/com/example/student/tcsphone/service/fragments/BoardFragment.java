@@ -17,6 +17,11 @@ public class BoardFragment extends Fragment implements FragmentContract.View {
     private FragmentContract.Presenter mPresenter;
     private WebView wb_board;
 
+    // 사용자 정보
+    private String id;
+    private String pwd;
+    private String car_num;
+
     public static BoardFragment newInstance() {
         return new BoardFragment();
     }
@@ -25,8 +30,15 @@ public class BoardFragment extends Fragment implements FragmentContract.View {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_board, container, false);
+
+        Bundle extra = getArguments();
+
+        id = extra.getString("id");
+        pwd = extra.getString("pwd");
+        car_num = extra.getString("car_num");
+
         wb_board = (WebView)root.findViewById(R.id.wb_board);
-        wb_board.loadUrl("https://m.naver.com");
+        wb_board.loadUrl("http://70.12.114.140/car/websettingsp.do?car_num="+car_num);
 
         return root;
     }

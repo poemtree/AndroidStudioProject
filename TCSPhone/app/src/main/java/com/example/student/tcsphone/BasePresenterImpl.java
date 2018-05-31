@@ -11,8 +11,8 @@ public class BasePresenterImpl implements FragmentContract.Presenter {
         mFragmentContractView.setPresenter(this);
     }
 
-    @Override
-    public void buttonClickAction() {
-        //mFragmentContractView.ShowToast("Total");
+    public FragmentContract.View getFragmentContract() {
+        return mFragmentContractView;
     }
+
 }

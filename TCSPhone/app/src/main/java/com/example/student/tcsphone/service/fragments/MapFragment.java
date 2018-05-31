@@ -6,9 +6,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.example.student.tcsphone.R;
 import com.example.student.tcsphone.fragmentinterface.FragmentContract;
@@ -32,19 +35,34 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class MapFragment extends Fragment implements FragmentContract.View, OnMapReadyCallback {
-    private static final String TAG = "Map";
+
+    private static final String TAG = "---MapFragment---";
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
     private FragmentContract.Presenter mPresenter;
 
+    // 구글맵에 필요한 변수
     private GoogleMap gmap;
     private MapView map;
     private Marker marker;
 
+    // 마커 이미지
     private Bitmap bitmap;
 
+    // 서버 통신 플레그
     private boolean mapFlag;
 
-    private LocationSetting locationSetting;
+    // 실시간 차량 위치 정보를 받아올 쓰래드
+    private Thread locationSetting;
+
+    // 차량 고유식별번호
+    private String car_num;
+
+    private CheckBox chck_Bx_target;
+
+    public void setCar_num(String car_num) {
+        Log.e(TAG, "setCar_num - > "+car_num);
+        this.car_num = car_num;
+    }
 
     @Nullable
     @Override
@@ -55,7 +73,11 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
         }
-        mapFlag = true;
+
+        Bundle extra = getArguments();
+        car_num = extra.getString("car_num");
+        Log.e(TAG,"car_num : " + car_num);
+
         map = (MapView)root.findViewById(R.id.map);
         map.onCreate(mapViewBundle);
         map.getMapAsync(this);
@@ -63,6 +85,20 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
         bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.carmarker1);
         setBitmapSize(0.2f);
 
+        chck_Bx_target = root.findViewById(R.id.chck_Bx_target);
+        chck_Bx_target.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mapFlag = b;
+                if(b) {
+                    Log.e(TAG, "Target on");
+                    startLocationTask(car_num);
+                } else {
+                    Log.e(TAG, "Target off");
+                }
+            }
+        });
+        chck_Bx_target.setChecked(true);
         return root;
     }
 
@@ -94,6 +130,7 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
     public void onStart() {
         super.onStart();
         map.onStart();
+        mapFlag = chck_Bx_target.isChecked();
     }
 
     @Override
@@ -104,6 +141,7 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
 
     @Override
     public void onPause() {
+        mapFlag = false;
         map.onPause();
         super.onPause();
     }
@@ -124,15 +162,15 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
         gmap.setMinZoomPreference(12);
-        /*LatLng ny = new LatLng(40.7143528, -74.0059731);
-        gmap.moveCamera(CameraUpdateFactory.newLatLng(ny));*/
-        locationSetting = new LocationSetting();
-        Thread thread = new Thread(locationSetting);
-        thread.start();
     }
 
     public static MapFragment newInstance() {
         return new MapFragment();
+    }
+
+    public void startLocationTask(String car_num) {
+        locationSetting = new Thread(new LocationSetting(car_num));
+        locationSetting.start();
     }
 
     public void setBitmapSize(float scall) {
@@ -145,7 +183,7 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
 
         @Override
         protected List<Double> doInBackground(String... strings) {
-
+            Log.e(TAG, "Run LocationTask");
             String address = "http://70.12.114.140/car/readCarloc.do";
             URL url = null;
             HttpURLConnection con = null;
@@ -159,7 +197,7 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
                 con=(HttpURLConnection)url.openConnection();
 
                 if(con != null) {
-                    con.setConnectTimeout(500);
+                    con.setConnectTimeout(2000);
                     con.setRequestMethod("GET");
                     con.setRequestProperty("Accept","*/*");
                     if(con.getResponseCode() != HttpURLConnection.HTTP_OK){
@@ -179,7 +217,7 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
             } finally {
                 con.disconnect();
             }
-
+            Log.e(TAG, "Stop LocationTask");
             return list;
         }
 
@@ -189,6 +227,8 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
                 marker.remove();
 
             LatLng CAR = new LatLng(list.get(0), list.get(1));
+
+            Log.e(TAG, "Lat : " + list.get(0) + "Lng : " + list.get(1));
 
             MarkerOptions markerOptions = new MarkerOptions();
 
@@ -210,18 +250,27 @@ public class MapFragment extends Fragment implements FragmentContract.View, OnMa
 
     class LocationSetting implements Runnable {
 
+        private String car_num;
+
+        public LocationSetting(String car_num) {
+            this.car_num = car_num;
+        }
+
         @Override
         public void run() {
+            Log.e(TAG, "while roof started");
             while(mapFlag) {
                 try {
                     LocationTask locationTask = new LocationTask();
-                    locationTask.execute("car_num", "abc123");
+                    locationTask.execute("car_num", car_num);
                     Thread.sleep(1500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+            Log.e(TAG, "while roof ended");
         }
     }
+
 
 }

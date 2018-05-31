@@ -5,8 +5,8 @@ public interface FragmentContract {
     interface View extends BaseView<Presenter> {
     }
 
-    interface Presenter extends BasePresenter {
-        void buttonClickAction();
+    interface Presenter<S> extends BasePresenter {
+        public FragmentContract.View getFragmentContract();
     }
 
 }

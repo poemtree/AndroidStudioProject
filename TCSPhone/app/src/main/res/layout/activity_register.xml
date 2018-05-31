@@ -7,7 +7,7 @@
     android:background="#4bacc6"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".RegisterActivity">
+    tools:context=".activity.RegisterActivity">
 
     <ImageView
         android:id="@+id/img_title_r"

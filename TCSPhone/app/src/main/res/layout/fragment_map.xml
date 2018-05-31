@@ -9,4 +9,13 @@
         android:layout_height="match_parent"
         android:visibility="visible" />
 
+    <CheckBox
+        android:id="@+id/chck_Bx_target"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="100dp"
+        android:layout_marginLeft="35dp"
+        android:button="@drawable/target" />
+
 </FrameLayout>

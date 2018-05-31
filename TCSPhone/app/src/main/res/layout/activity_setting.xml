@@ -7,61 +7,73 @@
     android:background="@android:color/transparent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".SettingActivity">
+    tools:context=".activity.SettingActivity">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#4bacc6"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            app:srcCompat="@drawable/title_s" />
+            android:id="@+id/imageView4"
+            android:layout_width="160dp"
+            android:layout_height="300dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/setting_bg" />
 
-        <CheckBox
-            android:id="@+id/save_id_setting"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="ID 저장        " />
+            android:orientation="vertical">
 
-        <CheckBox
-            android:id="@+id/auto_login_setting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="자동로그인" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                app:srcCompat="@drawable/title_s" />
 
-        <ImageButton
-            android:id="@+id/btn_logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@android:color/transparent"
-            android:onClick="onClickLogoutButton"
-            app:srcCompat="@drawable/logout" />
+            <CheckBox
+                android:id="@+id/save_id_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="ID 저장        " />
 
-        <ImageButton
-            android:id="@+id/btn_back"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="10dp"
-            android:background="@android:color/transparent"
-            android:onClick="onClockBackButton"
-            app:srcCompat="@android:drawable/ic_menu_revert" />
-    </LinearLayout>
+            <CheckBox
+                android:id="@+id/auto_login_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="자동로그인" />
+
+            <ImageButton
+                android:id="@+id/btn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/transparent"
+                android:onClick="onClickLogoutButton"
+                app:srcCompat="@drawable/logout" />
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:onClick="onClockBackButton"
+                app:srcCompat="@android:drawable/ic_menu_revert" />
+        </LinearLayout>
+    </FrameLayout>
+
 </LinearLayout>
