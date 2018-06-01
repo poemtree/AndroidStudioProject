@@ -4,52 +4,32 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.student.tcsphone.board.BoardFragment;
-import com.example.student.tcsphone.board.BoardPresenterImpl;
-import com.example.student.tcsphone.map.MapFragment;
-import com.example.student.tcsphone.map.MapPresenterImpl;
-import com.example.student.tcsphone.status.StatusFragment;
-import com.example.student.tcsphone.status.StatusPresenterImpl;
+import com.example.student.tcsphone.fragments.BoardFragment;
+import com.example.student.tcsphone.fragments.MapFragment;
 
 public class TabPagerAdapter extends FragmentPagerAdapter {
 
-    private static final int PAGE_NUMBER = 3;
+    // 프래그먼트 수
+    private static final int PAGE_NUMBER = 2;
 
-    private MapPresenterImpl mapPresenter;
+    // 프래그먼트 객체
+    private MapFragment mapFragment;
+    private BoardFragment boardFragment;
+    private Fragment[] fragments;
+    private String[] titles;
 
-    private StatusPresenterImpl statusPresenter;
-
-    private BoardPresenterImpl boardPresenter;
-
-    public TabPagerAdapter(FragmentManager fragmentManager) {
+    // 프래그먼트 전달 받는 생성자
+    public TabPagerAdapter(FragmentManager fragmentManager, Fragment... fragments) {
         super(fragmentManager);
+        this.fragments = fragments;
+    }
+    public void setTitles(String... strings) {
+        titles = strings;
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch ( position ) {
-            case 0: {
-                MapFragment mapFragment = MapFragment.newInstance();
-                mapPresenter = new MapPresenterImpl(mapFragment);
-
-                return mapFragment;
-            }
-
-           case 1: {
-                StatusFragment statusFragment = StatusFragment.newInstance();
-                statusPresenter = new StatusPresenterImpl(statusFragment);
-
-                return statusFragment;
-            }
-
-            case 2: {
-                BoardFragment boardFragment = BoardFragment.newInstance();
-                boardPresenter = new BoardPresenterImpl(boardFragment);
-                return boardFragment;
-            }
-            default:
-                return null;
-        }
+        return fragments[position];
     }
 
     @Override
@@ -59,16 +39,7 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        switch ( position ) {
-            case 0:
-                return "Map";
-            case 1:
-                return "Status";
-            case 2:
-                return "Board";
-            default:
-                return "Default";
-        }
+        return titles[position];
     }
 }
 

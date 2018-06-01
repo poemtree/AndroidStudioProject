@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.student.tcsphone.AppCompatActivityFrame;
 import com.example.student.tcsphone.R;
 import com.example.student.tcsphone.listview.ListVO.MyCar;
 import com.example.student.tcsphone.listview.ListViewAdapter;
@@ -57,7 +58,7 @@ public class CarListActivity extends AppCompatActivityFrame {
                 Intent intent = new Intent();
                 intent.putExtra("car_num", item.getCar_num());
                 intent.putExtra("Relogin",false);
-                intent.putExtra("car_img", logos.get(item.getCar_memo()));
+                intent.putExtra("car_type", item.getCar_memo());
                 setResult(RESULT_OK, intent);
                 dismissCarProgressDialog();
                 finish();

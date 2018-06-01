@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+import com.example.student.tcsphone.AppCompatActivityFrame;
 import com.example.student.tcsphone.R;
 
 public class SettingActivity extends AppCompatActivityFrame {

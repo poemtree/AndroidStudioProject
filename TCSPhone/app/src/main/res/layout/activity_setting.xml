@@ -18,11 +18,13 @@
             android:layout_width="160dp"
             android:layout_height="300dp"
             android:scaleType="fitCenter"
+            android:visibility="invisible"
             app:srcCompat="@drawable/setting_bg" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#4bacc6"
             android:orientation="vertical">
 
             <ImageView
