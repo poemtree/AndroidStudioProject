@@ -50,7 +50,7 @@ public class RemoteActivity extends AppCompatActivityFrame {
     private final int ELIGHT_TASK = 2;
     private final int DOOR_TASK = 3;
 
-    //car_num/start_onoff/Door_onoff/Air_lv/Heat_lv/Elight_onoff/Temp/Reg_date
+    //car_num/start_onoff/Door_onoff/Air_lv/Heat_lv/Elight_onoff/Temp
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

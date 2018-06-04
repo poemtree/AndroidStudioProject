@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.student.tcsphone.CarProgressDialog;
 import com.example.student.tcsphone.R;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -106,8 +107,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chck_Bx_target.setChecked(false);
-                new SearchPlaceTask().execute();
+                if(!txt_search.getText().toString().equals("") && txt_search.getText() != null) {
+                    chck_Bx_target.setChecked(false);
+                    new SearchPlaceTask().execute();
+                } else {
+                    Toast.makeText(getContext(), "장소를 입력해주세요",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -194,7 +199,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
-        gmap.setMinZoomPreference(15);
+        gmap.setMinZoomPreference(10);
     }
 
     public static MapFragment newInstance() {
@@ -335,6 +340,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
             marker = gmap.addMarker(markerOptions);
 
             gmap.moveCamera(CameraUpdateFactory.newLatLng(CAR));
+            CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
+            gmap.animateCamera(zoom);   // moveCamera 는 바로 변경하지만,
+            // animateCamera() 는 근거리에선 부드럽게 변경합
+
+
 
         }
 
