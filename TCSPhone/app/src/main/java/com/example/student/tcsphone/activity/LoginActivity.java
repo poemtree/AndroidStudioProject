@@ -146,8 +146,7 @@ public class LoginActivity extends AppCompatActivityFrame {
 
     // 찾기버튼의 클릭리스너
     public void onClickFindButton(View v) {
-
-        showCarProgressDialog();
+        Toast.makeText(this, "미구현 기능입니다..", Toast.LENGTH_SHORT).show();
     }
 
     // 레지스터버튼의 클릭리스너

@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivityFrame {
                 break;
             case REQUEST_CODE_REMOTE :
                 intent = new Intent(getApplicationContext(), RemoteActivity.class);
+                intent.putExtra("car_num", car_num);
                 break;
         }
         if(intent != null) {
@@ -215,6 +216,7 @@ public class MainActivity extends AppCompatActivityFrame {
 
                     @Override
                     protected void onPostExecute(Void aVoid) {
+                        mapFragment.setMapFlag(false);
                         dismissCarProgressDialog();
                         startActivity(REQUEST_CODE_RELOGIN);
                     }
@@ -230,4 +232,5 @@ public class MainActivity extends AppCompatActivityFrame {
         fragmentSharedPreferences.edit().clear().commit();
         super.onDestroy();
     }
+
 }

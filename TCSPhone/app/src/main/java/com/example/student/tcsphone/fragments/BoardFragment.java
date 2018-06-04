@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.example.student.tcsphone.R;
 
@@ -46,11 +47,19 @@ public class BoardFragment extends Fragment {
 
 
         wb_board = (WebView)root.findViewById(R.id.wb_board);
+        wb_board.setWebViewClient(new WebClient());
         WebSettings webSettings = wb_board.getSettings();
         webSettings.setJavaScriptEnabled(true);
         wb_board.loadUrl("http://70.12.114.140/car/appdiagnosis.do?car_num="+car_num+"&car_type="+car_type);
-
         return root;
+    }
+
+    class WebClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
     }
 
 }

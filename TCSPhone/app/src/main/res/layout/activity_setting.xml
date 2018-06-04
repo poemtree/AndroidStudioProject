@@ -61,9 +61,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@android:color/transparent"
                 android:onClick="onClickLogoutButton"
-                app:srcCompat="@drawable/logout" />
+                app:srcCompat="@drawable/logout_small" />
 
             <ImageButton
                 android:id="@+id/btn_back"
@@ -71,10 +72,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@android:color/transparent"
                 android:onClick="onClockBackButton"
-                app:srcCompat="@android:drawable/ic_menu_revert" />
+                app:srcCompat="@drawable/back_small" />
         </LinearLayout>
     </FrameLayout>
 
